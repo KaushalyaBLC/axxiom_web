@@ -4,54 +4,18 @@ import Image from 'next/image';
 import { getScaledImageDimensions } from '@/lib/imageDimensions';
 
 export default function ClientBanner() {
-  const bannerBackground = encodeURIComponent(`
-    <svg width="1600" height="200" viewBox="0 0 1600 200" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="bannerGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stop-color="#ffffff" stop-opacity="0.15" />
-          <stop offset="50%" stop-color="#ffffff" stop-opacity="0.25" />
-          <stop offset="100%" stop-color="#ffffff" stop-opacity="0.15" />
-        </linearGradient>
-        <linearGradient id="glowStroke" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stop-color="rgba(255,255,255,0.18)" />
-          <stop offset="100%" stop-color="rgba(255,255,255,0.04)" />
-        </linearGradient>
-      </defs>
-      <rect width="1600" height="200" fill="#101010" />
-      <rect width="1600" height="200" fill="url(#bannerGradient)" />
-      <g stroke="url(#glowStroke)" stroke-width="0.75">
-        <path d="M0 60 H1600" />
-        <path d="M0 120 H1600" />
-        <path d="M320 0 V200" />
-        <path d="M640 0 V200" />
-        <path d="M960 0 V200" />
-        <path d="M1280 0 V200" />
-        <path d="M0 200 L200 0" />
-        <path d="M320 200 L520 0" />
-        <path d="M640 200 L840 0" />
-        <path d="M960 200 L1160 0" />
-        <path d="M1280 200 L1480 0" />
-      </g>
-      <g fill="rgba(255,255,255,0.35)">
-        <circle cx="180" cy="80" r="3" />
-        <circle cx="580" cy="140" r="2.5" />
-        <circle cx="940" cy="70" r="3" />
-        <circle cx="1340" cy="110" r="2.5" />
-      </g>
-    </svg>
-  `);
-
   const clients = [
-    { name: "Legacy Liquor", location: "Calgary, Canada", logo: "/clients/legacy_liquour_logo.png" },
-    { name: "Machma College", location: "Colombo, Sri Lanka", logo: "/clients/machma_logo.png" },
-    { name: "Ceylon Maritime Services", location: "Colombo, Sri Lanka", logo: "/clients/ceylone_marine.png" },
-    { name: "Buffalo Contractors", location: "New York, USA", logo: "/clients/buffalo_contractors.png" },
-    { name: "Lichaly Stores", location: "Gampaha, Sri Lanka", logo: "/clients/lichaly_store_logo.png" },
+    { name: "Machma College", location: "Colombo, Sri Lanka", logo: "/clients/machma_logo.png", theme: "white" as const },
+    { name: "Legacy Liquor", location: "Calgary, Canada", logo: "/clients/legacy_liquour_logo.png", theme: "black" as const },
+    { name: "Ceylon Maritime Services", location: "Colombo, Sri Lanka", logo: "/clients/ceylone_marine.png", theme: "white" as const },
+    { name: "Buffalo Contractors", location: "New York, USA", logo: "/clients/buffalo_contractors.png", theme: "white" as const },
+    { name: "Lichaly Stores", location: "Gampaha, Sri Lanka", logo: "/clients/lichaly_store_logo.png", theme: "black" as const },
   ];
+
   const logoDimensions: Record<string, { width: number; height: number }> = Object.fromEntries(
     clients.map((client) => [
       client.logo,
-      getScaledImageDimensions(client.logo, 64, 64),
+      getScaledImageDimensions(client.logo, 70, 70),
     ]),
   );
 
@@ -59,75 +23,127 @@ export default function ClientBanner() {
   const duplicatedClients = [...clients, ...clients, ...clients];
 
   return (
-    <section
-      className="relative w-full overflow-hidden border-y border-white/10 text-white bg-black"
-      style={{
-        backgroundImage: `
-          radial-gradient(circle at 20% 20%, rgba(255,255,255,0.12), transparent 45%),
-          radial-gradient(circle at 80% 0%, rgba(255,255,255,0.08), transparent 40%),
-          linear-gradient(120deg, rgba(8,8,8,0.95), rgba(26,26,26,0.98)),
-          url("data:image/svg+xml,${bannerBackground}")
-        `,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }}
-    >
-      {/* Monochrome glow accents */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/80" />
-        <div className="absolute -top-24 left-0 w-96 h-96 rounded-full bg-gradient-to-br from-white/25 via-gray-500/20 to-transparent blur-[140px] opacity-80" />
-        <div className="absolute top-0 right-10 w-96 h-96 rounded-full bg-gradient-to-bl from-white/20 via-gray-500/15 to-transparent blur-[160px] opacity-75" />
-        <div className="absolute bottom-[-100px] left-1/2 -translate-x-1/2 w-4/5 h-60 bg-gradient-to-r from-transparent via-white/20 to-transparent blur-[120px] opacity-70" />
-        <div
-          className="absolute inset-0 opacity-35"
-          style={{
-            backgroundImage:
-              'linear-gradient(120deg, rgba(255,255,255,0.12) 0.5px, transparent 0.5px), linear-gradient(300deg, rgba(255,255,255,0.08) 0.5px, transparent 0.5px)',
-            backgroundSize: '120px 120px',
-          }}
-        />
-        <div className="absolute inset-y-0 right-0 w-1/3 bg-gradient-to-l from-black via-transparent to-transparent opacity-50" />
+    <section className="relative w-full overflow-hidden bg-black text-white py-12">
+      {/* Animated gradient background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-black via-zinc-950 to-black">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(120,119,198,0.1),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(255,255,255,0.05),transparent_50%)]" />
       </div>
 
-      <div className="relative z-10 py-10">
-        <div className="flex items-center justify-center gap-4 mb-10 text-xs uppercase tracking-[0.4em] text-gray-400">
-          <div className="w-12 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-          <span className="font-light">Trusted by</span>
-          <div className="w-12 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+      {/* Animated grid pattern */}
+      <div
+        className="absolute inset-0 opacity-20"
+        style={{
+          backgroundImage: `
+            linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)
+          `,
+          backgroundSize: '50px 50px',
+          animation: 'gridMove 20s linear infinite'
+        }}
+      />
+
+      {/* Floating particles */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="particle particle-1" />
+        <div className="particle particle-2" />
+        <div className="particle particle-3" />
+        <div className="particle particle-4" />
+        <div className="particle particle-5" />
+      </div>
+
+      <div className="relative z-10 max-w-7xl mx-auto px-6">
+        {/* Section Header */}
+        <div className="text-center mb-10">
+          <div className="inline-flex items-center gap-3 mb-6">
+            <div className="h-px w-16 bg-gradient-to-r from-transparent via-white/40 to-transparent" />
+            <span className="text-xs font-light tracking-[0.3em] text-white/60 uppercase">
+              Our Clients
+            </span>
+            <div className="h-px w-16 bg-gradient-to-r from-transparent via-white/40 to-transparent" />
+          </div>
+
         </div>
 
-        <div className="flex items-center gap-10 animate-scroll">
-          {duplicatedClients.map((client, index) => (
-            <div
-              key={`${client.name}-${index}`}
-              className="client-chip group"
-            >
-              <div className="client-chip__logo">
-                <Image
-                  src={client.logo}
-                  alt={`${client.name} logo`}
-                  width={logoDimensions[client.logo]?.width ?? 112}
-                  height={logoDimensions[client.logo]?.height ?? 112}
-                  sizes="64px"
-                  className="object-contain transition-transform duration-300 group-hover:scale-105"
-                />
-              </div>
+        {/* Scrolling Logos Container */}
+        <div className="relative">
+          {/* Gradient overlays for fade effect */}
+          <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-black to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-black to-transparent z-10 pointer-events-none" />
 
-              <div className="client-chip__meta">
-                <span className="client-chip__name">
-                  {client.name}
-                </span>
-                <span className="client-chip__location">
-                  {client.location}
-                </span>
-              </div>
+          <div className="overflow-hidden py-6">
+            <div className="flex items-center gap-8 animate-scroll-smooth">
+              {duplicatedClients.map((client, index) => (
+                <div
+                  key={`${client.name}-${index}`}
+                  className="client-card group"
+                >
+                  {/* Glow effect on hover */}
+                  <div className="client-card__glow" />
+
+                  {/* Logo container */}
+                  <div className="client-card__logo-container">
+                    <div
+                      className="client-card__logo-bg"
+                      data-theme={client.theme}
+                    />
+                    <div className="relative z-10">
+                      <Image
+                        src={client.logo}
+                        alt={`${client.name} logo`}
+                        width={logoDimensions[client.logo]?.width ?? 70}
+                        height={logoDimensions[client.logo]?.height ?? 70}
+                        sizes="70px"
+                        className="object-contain transition-all duration-500 group-hover:scale-110 group-hover:brightness-125 filter brightness-110"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Client info */}
+                  <div className="client-card__info">
+                    <h3 className="client-card__name">
+                      {client.name}
+                    </h3>
+                    <div className="flex items-center gap-1.5 text-gray-500">
+                      <svg
+                        className="w-3 h-3"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                        />
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                        />
+                      </svg>
+                      <span className="client-card__location">
+                        {client.location}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Decorative corner accents */}
+                  <div className="client-card__corner client-card__corner--tl" />
+                  <div className="client-card__corner client-card__corner--br" />
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
+
+
       </div>
 
       <style jsx>{`
-        @keyframes scroll {
+        @keyframes scroll-smooth {
           0% {
             transform: translateX(0);
           }
@@ -136,88 +152,256 @@ export default function ClientBanner() {
           }
         }
 
-        .animate-scroll {
-          animation: scroll 50s linear infinite;
+        @keyframes gridMove {
+          0% {
+            transform: translateX(0) translateY(0);
+          }
+          100% {
+            transform: translateX(50px) translateY(50px);
+          }
+        }
+
+        @keyframes float {
+          0%, 100% {
+            transform: translateY(0) translateX(0);
+          }
+          50% {
+            transform: translateY(-20px) translateX(10px);
+          }
+        }
+
+        .animate-scroll-smooth {
+          animation: scroll-smooth 60s linear infinite;
           width: max-content;
         }
 
-        .animate-scroll:hover {
+        .animate-scroll-smooth:hover {
           animation-play-state: paused;
         }
 
-        .client-chip {
-          display: inline-flex;
+        .particle {
+          position: absolute;
+          width: 4px;
+          height: 4px;
+          background: radial-gradient(circle, rgba(255,255,255,0.8), transparent);
+          border-radius: 50%;
+          animation: float 8s ease-in-out infinite;
+        }
+
+        .particle-1 {
+          top: 20%;
+          left: 10%;
+          animation-delay: 0s;
+        }
+
+        .particle-2 {
+          top: 60%;
+          left: 30%;
+          animation-delay: 2s;
+        }
+
+        .particle-3 {
+          top: 40%;
+          right: 20%;
+          animation-delay: 4s;
+        }
+
+        .particle-4 {
+          top: 80%;
+          left: 60%;
+          animation-delay: 1s;
+        }
+
+        .particle-5 {
+          top: 30%;
+          right: 40%;
+          animation-delay: 3s;
+        }
+
+        .client-card {
+          position: relative;
+          display: flex;
+          flex-direction: column;
           align-items: center;
           gap: 1rem;
-          min-width: 260px;
-          padding: 0.7rem 1.4rem;
-          border-radius: 9999px;
-          border: 1px solid rgba(255, 255, 255, 0.12);
-          background: rgba(8, 8, 8, 0.5);
-          box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
-          backdrop-filter: blur(18px);
-          position: relative;
+          min-width: 220px;
+          padding: 1.5rem 1.25rem;
+          background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 20px;
+          backdrop-filter: blur(20px);
+          transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
           overflow: hidden;
-          transition: transform 0.4s ease, border-color 0.4s ease;
         }
 
-        .client-chip::after {
-          content: '';
+        .client-card:hover {
+          transform: translateY(-8px);
+          border-color: rgba(255,255,255,0.2);
+          background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+          box-shadow:
+            0 20px 60px rgba(0,0,0,0.3),
+            0 0 80px rgba(255,255,255,0.05);
+        }
+
+        .client-card__glow {
           position: absolute;
-          inset: 0;
-          border-radius: inherit;
-          background: linear-gradient(
-            120deg,
-            rgba(255, 255, 255, 0.08),
-            rgba(255, 255, 255, 0)
+          inset: -100%;
+          background: radial-gradient(
+            circle at center,
+            rgba(255,255,255,0.15),
+            transparent 70%
           );
           opacity: 0;
-          transition: opacity 0.4s ease;
+          transition: opacity 0.5s ease;
         }
 
-        .client-chip:hover {
-          transform: translateY(-4px) scale(1.02);
-          border-color: rgba(255, 255, 255, 0.25);
-          box-shadow: 0 25px 45px rgba(0, 0, 0, 0.45);
-        }
-
-        .client-chip:hover::after {
+        .client-card:hover .client-card__glow {
           opacity: 1;
         }
 
-        .client-chip__logo {
-          width: 64px;
-          height: 64px;
+        .client-card__logo-container {
+          position: relative;
+          width: 100px;
+          height: 100px;
           display: flex;
           align-items: center;
           justify-content: center;
-          border-radius: 9999px;
+        }
+
+        .client-card__logo-bg {
+          position: absolute;
+          inset: 0;
+          border-radius: 50%;
+          transition: all 0.5s ease;
+        }
+
+        /* Black background theme (transparent/subtle) */
+        .client-card__logo-bg[data-theme="black"] {
           background: radial-gradient(
             circle at 30% 30%,
-            rgba(255, 255, 255, 0.2),
-            rgba(255, 255, 255, 0.05) 70%
+            rgba(255,255,255,0.08),
+            rgba(255,255,255,0.02)
           );
-          border: 1px solid rgba(255, 255, 255, 0.1);
+          border: 1px solid rgba(255,255,255,0.08);
         }
 
-        .client-chip__meta {
+        .client-card:hover .client-card__logo-bg[data-theme="black"] {
+          transform: scale(1.1) rotate(10deg);
+          background: radial-gradient(
+            circle at 30% 30%,
+            rgba(255,255,255,0.12),
+            rgba(255,255,255,0.04)
+          );
+          border-color: rgba(255,255,255,0.15);
+        }
+
+        /* White background theme (solid white circle) */
+        .client-card__logo-bg[data-theme="white"] {
+          background: radial-gradient(
+            circle at 30% 30%,
+            rgba(255,255,255,0.95),
+            rgba(255,255,255,0.85)
+          );
+          border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .client-card:hover .client-card__logo-bg[data-theme="white"] {
+          transform: scale(1.1) rotate(10deg);
+          background: radial-gradient(
+            circle at 30% 30%,
+            rgba(255,255,255,1),
+            rgba(255,255,255,0.95)
+          );
+          border-color: rgba(255,255,255,0.5);
+          box-shadow: 0 0 20px rgba(255,255,255,0.3);
+        }
+
+        .client-card__info {
           display: flex;
           flex-direction: column;
-          gap: 0.15rem;
-          text-align: left;
+          align-items: center;
+          gap: 0.5rem;
+          text-align: center;
         }
 
-        .client-chip__name {
-          font-size: 0.85rem;
-          letter-spacing: 0.2em;
-          text-transform: uppercase;
-          color: rgba(255, 255, 255, 0.85);
+        .client-card__name {
+          font-size: 0.875rem;
+          font-weight: 600;
+          letter-spacing: 0.05em;
+          color: rgba(255,255,255,0.95);
+          transition: color 0.3s ease;
         }
 
-        .client-chip__location {
-          font-size: 0.65rem;
-          color: rgba(200, 200, 200, 0.7);
-          letter-spacing: 0.3em;
+        .client-card:hover .client-card__name {
+          color: rgba(255,255,255,1);
+        }
+
+        .client-card__location {
+          font-size: 0.7rem;
+          letter-spacing: 0.05em;
+          transition: color 0.3s ease;
+        }
+
+        .client-card:hover .client-card__location {
+          color: rgba(156,163,175,1);
+        }
+
+        .client-card__corner {
+          position: absolute;
+          width: 20px;
+          height: 20px;
+          border: 1px solid rgba(255,255,255,0.2);
+          opacity: 0;
+          transition: opacity 0.5s ease;
+        }
+
+        .client-card:hover .client-card__corner {
+          opacity: 1;
+        }
+
+        .client-card__corner--tl {
+          top: 12px;
+          left: 12px;
+          border-right: none;
+          border-bottom: none;
+        }
+
+        .client-card__corner--br {
+          bottom: 12px;
+          right: 12px;
+          border-left: none;
+          border-top: none;
+        }
+
+        .stat-card {
+          text-align: center;
+          padding: 1.5rem;
+          background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 16px;
+          transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+          transform: translateY(-4px);
+          border-color: rgba(255,255,255,0.15);
+          background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+        }
+
+        .stat-card__value {
+          font-size: 2rem;
+          font-weight: 700;
+          background: linear-gradient(135deg, #ffffff, #a0a0a0);
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+          margin-bottom: 0.5rem;
+        }
+
+        .stat-card__label {
+          font-size: 0.75rem;
+          color: rgba(156,163,175,0.8);
+          letter-spacing: 0.1em;
           text-transform: uppercase;
         }
       `}</style>
