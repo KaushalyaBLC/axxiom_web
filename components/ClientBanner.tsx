@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { getScaledImageDimensions } from '@/lib/imageDimensions';
 
 export default function ClientBanner() {
   const bannerBackground = encodeURIComponent(`
@@ -47,6 +48,12 @@ export default function ClientBanner() {
     { name: "Buffalo Contractors", location: "New York, USA", logo: "/clients/buffalo_contractors.png" },
     { name: "Lichaly Stores", location: "Gampaha, Sri Lanka", logo: "/clients/lichaly_store_logo.png" },
   ];
+  const logoDimensions: Record<string, { width: number; height: number }> = Object.fromEntries(
+    clients.map((client) => [
+      client.logo,
+      getScaledImageDimensions(client.logo, 64, 64),
+    ]),
+  );
 
   // Triple the clients array for seamless infinite loop
   const duplicatedClients = [...clients, ...clients, ...clients];
@@ -89,29 +96,28 @@ export default function ClientBanner() {
           <div className="w-12 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
         </div>
 
-        <div className="flex items-center gap-16 animate-scroll">
+        <div className="flex items-center gap-10 animate-scroll">
           {duplicatedClients.map((client, index) => (
             <div
               key={`${client.name}-${index}`}
-              className="flex flex-col items-center gap-3 min-w-50 transition-all duration-300 hover:scale-105"
+              className="client-chip group"
             >
-              {/* Client Logo */}
-              <div className="w-28 h-28 flex items-center justify-center">
+              <div className="client-chip__logo">
                 <Image
                   src={client.logo}
                   alt={`${client.name} logo`}
-                  width={112}
-                  height={112}
-                  className="object-contain transition-transform duration-300 hover:scale-110"
+                  width={logoDimensions[client.logo]?.width ?? 112}
+                  height={logoDimensions[client.logo]?.height ?? 112}
+                  sizes="64px"
+                  className="object-contain transition-transform duration-300 group-hover:scale-105"
                 />
               </div>
 
-              {/* Client Name & Location */}
-              <div className="flex flex-col items-center gap-1">
-                <span className="text-sm font-light tracking-wider text-gray-400 text-center">
+              <div className="client-chip__meta">
+                <span className="client-chip__name">
                   {client.name}
                 </span>
-                <span className="text-xs font-light text-gray-500 text-center">
+                <span className="client-chip__location">
                   {client.location}
                 </span>
               </div>
@@ -137,6 +143,82 @@ export default function ClientBanner() {
 
         .animate-scroll:hover {
           animation-play-state: paused;
+        }
+
+        .client-chip {
+          display: inline-flex;
+          align-items: center;
+          gap: 1rem;
+          min-width: 260px;
+          padding: 0.7rem 1.4rem;
+          border-radius: 9999px;
+          border: 1px solid rgba(255, 255, 255, 0.12);
+          background: rgba(8, 8, 8, 0.5);
+          box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
+          backdrop-filter: blur(18px);
+          position: relative;
+          overflow: hidden;
+          transition: transform 0.4s ease, border-color 0.4s ease;
+        }
+
+        .client-chip::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          border-radius: inherit;
+          background: linear-gradient(
+            120deg,
+            rgba(255, 255, 255, 0.08),
+            rgba(255, 255, 255, 0)
+          );
+          opacity: 0;
+          transition: opacity 0.4s ease;
+        }
+
+        .client-chip:hover {
+          transform: translateY(-4px) scale(1.02);
+          border-color: rgba(255, 255, 255, 0.25);
+          box-shadow: 0 25px 45px rgba(0, 0, 0, 0.45);
+        }
+
+        .client-chip:hover::after {
+          opacity: 1;
+        }
+
+        .client-chip__logo {
+          width: 64px;
+          height: 64px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 9999px;
+          background: radial-gradient(
+            circle at 30% 30%,
+            rgba(255, 255, 255, 0.2),
+            rgba(255, 255, 255, 0.05) 70%
+          );
+          border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .client-chip__meta {
+          display: flex;
+          flex-direction: column;
+          gap: 0.15rem;
+          text-align: left;
+        }
+
+        .client-chip__name {
+          font-size: 0.85rem;
+          letter-spacing: 0.2em;
+          text-transform: uppercase;
+          color: rgba(255, 255, 255, 0.85);
+        }
+
+        .client-chip__location {
+          font-size: 0.65rem;
+          color: rgba(200, 200, 200, 0.7);
+          letter-spacing: 0.3em;
+          text-transform: uppercase;
         }
       `}</style>
     </section>

@@ -18,16 +18,25 @@ export default function Navbar() {
   const [showNavbar, setShowNavbar] = useState(false);
 
   useEffect(() => {
+    const getScrollPosition = () =>
+      typeof window !== 'undefined'
+        ? window.scrollY ||
+          document.documentElement.scrollTop ||
+          document.body.scrollTop ||
+          0
+        : 0;
+
     const handleScroll = () => {
       // Show navbar after scrolling down 100px
-      if (window.scrollY > 100) {
+      if (getScrollPosition() > 100) {
         setShowNavbar(true);
       } else {
         setShowNavbar(false);
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 

@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import HeroSection from "@/components/HeroSection";
 import ServicesSection from "@/components/ServicesSection";
 import WhoWeAreSection from "@/components/WhoWeAreSection";
@@ -13,18 +13,31 @@ import LoadingOverlay from "@/components/LoadingOverlay";
 import { useImagePreloader } from "@/hooks/useImagePreloader";
 import { imageAssets } from "@/lib/imageAssets";
 
+const MIN_LOADER_VISIBLE_MS = 250;
+
 export default function Home() {
   const { isLoaded, progress } = useImagePreloader(imageAssets);
   const [showLoader, setShowLoader] = useState(true);
-  const [canRenderApp, setCanRenderApp] = useState(false);
+  const loaderStartRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (typeof performance !== "undefined") {
+      loaderStartRef.current = performance.now();
+      return;
+    }
+    loaderStartRef.current = Date.now();
+  }, []);
 
   useEffect(() => {
     if (!isLoaded) {
       return;
     }
-
-    const timeout = setTimeout(() => setShowLoader(false), 600);
-    return () => clearTimeout(timeout);
+    const now =
+      typeof performance !== "undefined" ? performance.now() : Date.now();
+    const start = loaderStartRef.current ?? now;
+    const remaining = Math.max(0, MIN_LOADER_VISIBLE_MS - (now - start));
+    const timeout = window.setTimeout(() => setShowLoader(false), remaining);
+    return () => window.clearTimeout(timeout);
   }, [isLoaded]);
 
   useEffect(() => {
@@ -48,56 +61,52 @@ export default function Home() {
     document.body.style.overflow = "";
   }, [showLoader]);
 
-  useEffect(() => {
-    if (!showLoader) {
-      setCanRenderApp(true);
-    }
-  }, [showLoader]);
-
   return (
     <>
       {showLoader && (
         <LoadingOverlay progress={progress} isComplete={isLoaded} />
       )}
-      {canRenderApp && (
-        <div
-          className={`app-shell w-full overflow-x-hidden scroll-smooth ${
-            showLoader ? "app-shell--hidden" : "app-shell--visible"
-          }`}
-          aria-busy={showLoader}
-          aria-hidden={showLoader}
-        >
-          <Navbar />
-          <section id="home">
-            <HeroSection />
-          </section>
-          <ClientBanner />
-          <section id="services">
-            <ServicesSection />
-          </section>
-          <section id="about">
-            <WhoWeAreSection />
-          </section>
-          <section id="projects">
-            <ProjectsSection />
-          </section>
-          <section id="team">
-            <AboutUsSection />
-          </section>
-          <section id="contact">
-            <ContactSection />
-          </section>
-          <Footer />
-        </div>
-      )}
+      <div
+        className={`app-shell w-full overflow-x-hidden scroll-smooth ${
+          showLoader ? "app-shell--hidden" : "app-shell--visible"
+        }`}
+        aria-busy={showLoader}
+        aria-hidden={showLoader}
+      >
+        <Navbar />
+        <section id="home">
+          <HeroSection />
+        </section>
+        <ClientBanner />
+        <section id="services">
+          <ServicesSection />
+        </section>
+        <section id="about">
+          <WhoWeAreSection />
+        </section>
+        <section id="projects">
+          <ProjectsSection />
+        </section>
+        <section id="team">
+          <AboutUsSection />
+        </section>
+        <section id="contact">
+          <ContactSection />
+        </section>
+        <Footer />
+      </div>
       <style jsx global>{`
         .app-shell {
           opacity: 1;
-          transform: none;
+          transition: opacity 0.5s ease;
+          will-change: opacity;
         }
-        .app-shell--hidden,
+        .app-shell--hidden {
+          opacity: 0;
+          pointer-events: none;
+        }
         .app-shell--visible {
-          transition: opacity 0.6s ease, transform 0.6s ease;
+          opacity: 1;
         }
       `}</style>
     </>

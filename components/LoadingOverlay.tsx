@@ -8,7 +8,7 @@ type LoadingOverlayProps = {
 
 export default function LoadingOverlay({ progress, isComplete }: LoadingOverlayProps) {
   const safeProgress = Math.min(Math.max(progress, 0), 1);
-  const glowStrength = 0.6 + safeProgress * 0.4;
+  const glowStrength = 0.35 + safeProgress * 0.45;
   const overlayStyle = useMemo(
     () =>
       ({
@@ -23,7 +23,9 @@ export default function LoadingOverlay({ progress, isComplete }: LoadingOverlayP
         backgroundColor: '#000',
         zIndex: 9999,
         fontFamily: "var(--font-geist-sans, 'Geist', system-ui, sans-serif)",
+        willChange: 'opacity',
         '--glow-strength': glowStrength,
+        '--loader-progress': safeProgress,
       }) as CSSProperties,
     [glowStrength]
   );
@@ -31,11 +33,12 @@ export default function LoadingOverlay({ progress, isComplete }: LoadingOverlayP
     () =>
       ({
         fontSize: 'clamp(2.5rem, 6vw, 5rem)',
-        letterSpacing: '0.8em',
+        letterSpacing: '0.6em',
         textTransform: 'uppercase',
         color: '#fff',
-        textShadow: `0 0 30px rgba(255, 255, 255, ${glowStrength})`,
+        textShadow: `0 0 25px rgba(255, 255, 255, ${glowStrength})`,
         fontWeight: 600,
+        willChange: 'transform, opacity',
       }) as CSSProperties,
     [glowStrength]
   );
@@ -45,21 +48,32 @@ export default function LoadingOverlay({ progress, isComplete }: LoadingOverlayP
       className={`loading-overlay ${isComplete ? 'loading-overlay--done' : ''}`}
       style={overlayStyle}
     >
-      <span className="loading-overlay__text" style={textStyle}>
-        AXXIOM
-      </span>
+      <div className="loading-overlay__shell">
+        <span className="loading-overlay__text" style={textStyle}>
+          AXXIOM
+        </span>
+      </div>
 
       <style jsx>{`
         .loading-overlay {
           transition: opacity 0.6s ease, visibility 0.6s ease;
           opacity: 1;
           visibility: visible;
+          pointer-events: auto;
         }
 
         .loading-overlay--done {
           opacity: 0;
           visibility: hidden;
           pointer-events: none;
+        }
+
+        .loading-overlay__shell {
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 1.25rem;
         }
 
         .loading-overlay__text {
@@ -81,6 +95,12 @@ export default function LoadingOverlay({ progress, isComplete }: LoadingOverlayP
             transform: scale(0.9);
             opacity: 0.7;
             text-shadow: 0 0 20px rgba(255, 255, 255, var(--glow-strength));
+          }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .loading-overlay__text {
+            animation: none;
           }
         }
       `}</style>

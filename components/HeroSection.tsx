@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Beams from "@/components/Beam";
+import { getScaledImageDimensions } from "@/lib/imageDimensions";
 
 const heroBackground = encodeURIComponent(`
   <svg width="1600" height="900" viewBox="0 0 1600 900" xmlns="http://www.w3.org/2000/svg">
@@ -23,6 +24,8 @@ const heroBackground = encodeURIComponent(`
     </g>
   </svg>
 `);
+
+const heroLogoDimensions = getScaledImageDimensions("/white-3.png", 830, 150);
 
 export default function HeroSection() {
   return (
@@ -50,8 +53,9 @@ export default function HeroSection() {
         <Image
           src="/white-3.png"
           alt="Axxiom logo"
-          width={830}
-          height={250}
+          width={heroLogoDimensions.width}
+          height={heroLogoDimensions.height}
+          sizes="(max-width: 640px) 90vw, (max-width: 1280px) 40vw, 640px"
           priority
           className="hero-logo"
         />
@@ -69,6 +73,12 @@ export default function HeroSection() {
         rotation={30}
         position={[3, 0, 0]}
       />
+      <div className="hero-scroll-hint" aria-hidden="true">
+        <span className="hero-scroll-hint__line">
+          <span className="hero-scroll-hint__dot" />
+        </span>
+        <span className="hero-scroll-hint__chevron" />
+      </div>
       <style jsx>{`
         .hero-root {
           min-height: 100vh;
@@ -200,6 +210,75 @@ export default function HeroSection() {
         .hero-orbit--two::after {
           animation-duration: 22s;
           animation-delay: 3s;
+        }
+        .hero-scroll-hint {
+          position: absolute;
+          left: 50%;
+          bottom: clamp(24px, 5vh, 52px);
+          transform: translateX(-50%);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 0.4rem;
+          opacity: 0.75;
+        }
+        .hero-scroll-hint__line {
+          width: 1px;
+          height: 34px;
+          display: inline-flex;
+          align-items: flex-start;
+          justify-content: center;
+          background: linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.25) 40%,
+            rgba(255, 255, 255, 0) 100%
+          );
+          position: relative;
+          overflow: hidden;
+        }
+        .hero-scroll-hint__dot {
+          width: 6px;
+          height: 6px;
+          border-radius: 9999px;
+          background: rgba(255, 255, 255, 0.8);
+          position: absolute;
+          top: 0;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          animation: heroDotDrift 2s ease-in-out infinite;
+        }
+        .hero-scroll-hint__chevron {
+          width: 14px;
+          height: 14px;
+          border-right: 1px solid rgba(255, 255, 255, 0.7);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.7);
+          transform: rotate(45deg);
+          animation: heroChevronPulse 1.6s ease-in-out infinite;
+        }
+        @keyframes heroDotDrift {
+          0% {
+            transform: translate(-50%, -100%);
+            opacity: 0;
+          }
+          40% {
+            opacity: 1;
+          }
+          100% {
+            transform: translate(-50%, 100%);
+            opacity: 0;
+          }
+        }
+        @keyframes heroChevronPulse {
+          0%,
+          100% {
+            transform: translateY(0) rotate(45deg);
+            opacity: 0.65;
+          }
+          50% {
+            transform: translateY(6px) rotate(45deg);
+            opacity: 1;
+          }
         }
         @media (max-width: 1024px) {
           .hero-content {

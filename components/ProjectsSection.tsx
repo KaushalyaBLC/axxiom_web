@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { Package, GraduationCap, DollarSign, Smartphone, ShoppingCart, Briefcase } from 'lucide-react';
+import { getScaledImageDimensions } from '@/lib/imageDimensions';
 
 export default function ProjectsSection() {
 
@@ -110,6 +111,7 @@ export default function ProjectsSection() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
           {projects.map((project, index) => {
             const IconComponent = project.icon;
+            const logoDimensions = getScaledImageDimensions(project.logo, 64, 64);
             return (
               <div
                 key={index}
@@ -158,8 +160,9 @@ export default function ProjectsSection() {
                       <Image
                         src={project.logo}
                         alt={`${project.client} logo`}
-                        width={64}
-                        height={64}
+                        width={logoDimensions.width}
+                        height={logoDimensions.height}
+                        sizes="64px"
                         className="object-contain opacity-80 hover:opacity-100 transition-opacity duration-300"
                       />
                     </div>

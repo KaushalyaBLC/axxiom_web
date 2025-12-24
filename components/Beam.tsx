@@ -81,7 +81,17 @@ function extendMaterial<T extends THREE.Material = THREE.Material>(
 
 const CanvasWrapper: FC<{ children: ReactNode }> = ({ children }) => (
   <div className="beams-wrapper">
-    <Canvas dpr={[1, 2]} frameloop="always" className="beams-canvas">
+    <Canvas
+      dpr={[1, 1.5]}
+      frameloop="demand"
+      className="beams-canvas"
+      eventSource={typeof document !== 'undefined' ? document.documentElement : undefined}
+      gl={{ powerPreference: 'high-performance' }}
+      performance={{ min: 0.4, max: 0.9 }}
+      onCreated={({ gl }) => {
+        gl.setClearColor('#000000');
+      }}
+    >
       {children}
     </Canvas>
   </div>
@@ -197,9 +207,9 @@ const Beams: FC<BeamsProps> = ({
 }) => {
   const meshRef = useRef<THREE.Mesh<THREE.BufferGeometry, THREE.ShaderMaterial>>(null!);
 
-  const beamMaterial = useMemo(
-    () =>
-      extendMaterial(THREE.MeshStandardMaterial, {
+  const beamMaterial = useMemo(() => {
+    const MaterialConstructor = THREE.MeshStandardMaterial;
+    return extendMaterial(MaterialConstructor, {
         header: `
   varying vec3 vEye;
   varying float vNoise;
@@ -250,14 +260,19 @@ const Beams: FC<BeamsProps> = ({
           uNoiseIntensity: noiseIntensity,
           uScale: scale
         }
-      }),
-    [speed, noiseIntensity, scale]
-  );
+      });
+  }, [speed, noiseIntensity, scale]);
 
   return (
     <CanvasWrapper>
       <group rotation={[0, 0, degToRad(rotation)]} position={position}>
-        <PlaneNoise ref={meshRef} material={beamMaterial} count={beamNumber} width={beamWidth} height={beamHeight} />
+        <PlaneNoise
+          ref={meshRef}
+          material={beamMaterial}
+          count={beamNumber}
+          width={beamWidth}
+          height={beamHeight}
+        />
         <DirLight color={lightColor} position={[0, 3, 10]} />
       </group>
       <ambientLight intensity={1} />
@@ -275,10 +290,11 @@ function createStackedPlanesBufferGeometry(
   heightSegments: number
 ): THREE.BufferGeometry {
   const geometry = new THREE.BufferGeometry();
-  const numVertices = n * (heightSegments + 1) * 2;
-  const numFaces = n * heightSegments * 2;
+  const segments = Math.max(2, Math.min(80, heightSegments));
+  const numVertices = n * (segments + 1) * 2;
+  const numFaces = n * segments * 2;
   const positions = new Float32Array(numVertices * 3);
-  const indices = new Uint32Array(numFaces * 3);
+  const indices = segments > 65535 ? new Uint32Array(numFaces * 3) : new Uint16Array(numFaces * 3);
   const uvs = new Float32Array(numVertices * 2);
 
   let vertexOffset = 0;
@@ -292,16 +308,16 @@ function createStackedPlanesBufferGeometry(
     const uvXOffset = Math.random() * 300;
     const uvYOffset = Math.random() * 300;
 
-    for (let j = 0; j <= heightSegments; j++) {
-      const y = height * (j / heightSegments - 0.5);
+    for (let j = 0; j <= segments; j++) {
+      const y = height * (j / segments - 0.5);
       const v0 = [xOffset, y, 0];
       const v1 = [xOffset + width, y, 0];
       positions.set([...v0, ...v1], vertexOffset * 3);
 
-      const uvY = j / heightSegments;
+      const uvY = j / segments;
       uvs.set([uvXOffset, uvY + uvYOffset, uvXOffset + 1, uvY + uvYOffset], uvOffset);
 
-      if (j < heightSegments) {
+      if (j < segments) {
         const a = vertexOffset,
           b = vertexOffset + 1,
           c = vertexOffset + 2,
@@ -333,13 +349,21 @@ const MergedPlanes = forwardRef<
   const mesh = useRef<THREE.Mesh<THREE.BufferGeometry, THREE.ShaderMaterial>>(null!);
   useImperativeHandle(ref, () => mesh.current);
   const geometry = useMemo(
-    () => createStackedPlanesBufferGeometry(count, width, height, 0, 100),
+    () => createStackedPlanesBufferGeometry(count, width, height, 0.3, 48),
     [count, width, height]
   );
-  useFrame((_, delta) => {
-    mesh.current.material.uniforms.time.value += 0.1 * delta;
+
+  useFrame((state, delta) => {
+    const visibility = state.performance.current;
+    if (visibility < 0.15) {
+      return;
+    }
+    const timeUniform = mesh.current.material.uniforms.time;
+    timeUniform.value += 0.08 * delta;
+    state.invalidate();
   });
-  return <mesh ref={mesh} geometry={geometry} material={material} />;
+
+  return <mesh ref={mesh} geometry={geometry} material={material} frustumCulled={false} />;
 });
 MergedPlanes.displayName = 'MergedPlanes';
 

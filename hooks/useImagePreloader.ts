@@ -8,10 +8,17 @@ export function useImagePreloader(urls: string[]) {
     () => Array.from(new Set((urls ?? []).filter(Boolean))),
     [urls]
   );
-  const [progress, setProgress] = useState(() =>
-    assets.length === 0 ? 1 : 0
-  );
+  const initialProgress = assets.length === 0 ? 1 : 0;
+  const [progress, setProgress] = useState(initialProgress);
+  const [smoothedProgress, setSmoothedProgress] = useState(initialProgress);
   const [isLoaded, setIsLoaded] = useState(() => assets.length === 0);
+
+  useEffect(() => {
+    const nextInitial = assets.length === 0 ? 1 : 0;
+    setProgress(nextInitial);
+    setSmoothedProgress(nextInitial);
+    setIsLoaded(assets.length === 0);
+  }, [assets]);
 
   useEffect(() => {
     if (typeof window === 'undefined') {
@@ -68,8 +75,44 @@ export function useImagePreloader(urls: string[]) {
     };
   }, [assets]);
 
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      setSmoothedProgress(progress);
+      return;
+    }
+
+    let animationFrame: number;
+
+    const step = () => {
+      let shouldContinue = false;
+      setSmoothedProgress((previous) => {
+        const easingCeiling =
+          progress === 1
+            ? 1
+            : Math.max(progress, Math.min(previous + 0.0025, 0.92));
+        const difference = easingCeiling - previous;
+        if (Math.abs(difference) < 0.002) {
+          shouldContinue = progress < 1;
+          return easingCeiling;
+        }
+        shouldContinue = true;
+        return clamp(previous + difference * 0.35, 0, 1);
+      });
+
+      if (shouldContinue) {
+        animationFrame = window.requestAnimationFrame(step);
+      }
+    };
+
+    animationFrame = window.requestAnimationFrame(step);
+
+    return () => {
+      window.cancelAnimationFrame(animationFrame);
+    };
+  }, [progress]);
+
   return {
     isLoaded,
-    progress,
+    progress: smoothedProgress,
   };
 }
