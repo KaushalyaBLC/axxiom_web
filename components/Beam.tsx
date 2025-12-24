@@ -1,6 +1,6 @@
 'use client';
 
-import { forwardRef, useImperativeHandle, useEffect, useRef, useMemo, FC, ReactNode } from 'react';
+import { forwardRef, useImperativeHandle, useEffect, useRef, useMemo, FC, ReactNode, useState } from 'react';
 
 import * as THREE from 'three';
 
@@ -79,23 +79,35 @@ function extendMaterial<T extends THREE.Material = THREE.Material>(
   return mat;
 }
 
-const CanvasWrapper: FC<{ children: ReactNode }> = ({ children }) => (
-  <div className="beams-wrapper">
-    <Canvas
-      dpr={[1, 1.5]}
-      frameloop="demand"
-      className="beams-canvas"
-      eventSource={typeof document !== 'undefined' ? document.documentElement : undefined}
-      gl={{ powerPreference: 'high-performance' }}
-      performance={{ min: 0.4, max: 0.9 }}
-      onCreated={({ gl }) => {
-        gl.setClearColor('#000000');
-      }}
-    >
-      {children}
-    </Canvas>
-  </div>
-);
+const CanvasWrapper: FC<{ children: ReactNode }> = ({ children }) => {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return <div className="beams-wrapper" style={{ backgroundColor: '#000000' }} />;
+  }
+
+  return (
+    <div className="beams-wrapper">
+      <Canvas
+        dpr={[1, 1.5]}
+        frameloop="demand"
+        className="beams-canvas"
+        eventSource={document.documentElement}
+        gl={{ powerPreference: 'high-performance' }}
+        performance={{ min: 0.4, max: 0.9 }}
+        onCreated={({ gl }) => {
+          gl.setClearColor('#000000');
+        }}
+      >
+        {children}
+      </Canvas>
+    </div>
+  );
+};
 
 const hexToNormalizedRGB = (hex: string): [number, number, number] => {
   const clean = hex.replace('#', '');
