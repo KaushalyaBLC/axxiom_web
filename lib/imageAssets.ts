@@ -6,11 +6,11 @@ export const imageAssets: string[] = Array.from(
     '/clients/ceylone_marine.png',
     '/clients/buffalo_contractors.png',
     '/clients/lichaly_store_logo.png',
-    '/team/co_founder-ceo-chanupa.jpg',
+    '/team/chanupa.jpg',
     '/team/chamika.jpg',
-    '/team/co_founder-frontend_engineer-ashan.jpg',
-    '/team/co_founder-project_manager-yomal.jpg',
-    '/team/co_founuder-bussiness_analysit-arman.jpg',
+    '/team/ashan.jpg',
+    '/team/yomal.jpg',
+    '/team/arman.jpg',
     '/team/chamath.webp',
   ])
 );

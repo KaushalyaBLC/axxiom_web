@@ -1,7 +1,8 @@
 'use client';
 
 import Image from 'next/image';
-import { Target, Users, Lightbulb } from 'lucide-react';
+import Link from 'next/link';
+import { Target, Users, Lightbulb, Linkedin } from 'lucide-react';
 
 export default function AboutUsSection() {
   const aboutSvgBackground = encodeURIComponent(`
@@ -44,32 +45,38 @@ export default function AboutUsSection() {
     {
       name: "Chanupa Athsara",
       role: "Co-Founder & CEO",
-      photo: "/team/co_founder-ceo-chanupa.jpg"
+      photo: "/team/chanupa.jpg",
+      linkedin: "https://www.linkedin.com/in/chanupa-athsara/"
     },
     {
       name: "Chamika Dilshan",
       role: "Co-Founder & CTO",
-      photo: "/team/chamika.jpg"
+      photo: "/team/chamika.jpg",
+      linkedin: "https://www.linkedin.com/in/chamika-dilshan/"
     },
     {
       name: "Ashan Chalinda",
       role: "Co-Founder & Frontend Engineer",
-      photo: "/team/co_founder-frontend_engineer-ashan.jpg"
+      photo: "/team/ashan.jpg",
+      linkedin: "https://www.linkedin.com/in/ashan-chalinda/"
     },
     {
       name: "Kaveesha Yomal",
       role: "Co-Founder & Project Manager",
-      photo: "/team/co_founder-project_manager-yomal.jpg"
+      photo: "/team/yomal.jpg",
+      linkedin: "https://www.linkedin.com/in/kaveesha-yomal/"
     },
     {
       name: "Arman Shalik",
       role: "Co-Founder & Business Analyst",
-      photo: "/team/co_founuder-bussiness_analysit-arman.jpg"
+      photo: "/team/arman.jpg",
+      linkedin: "https://www.linkedin.com/in/arman-shalik/"
     },
     {
       name: "Chamath Kaushalya",
       role: "Software Engineer",
-      photo: "/team/chamath.webp"
+      photo: "/team/chamath.webp",
+      linkedin: "https://www.linkedin.com/in/chamath-kaushalya/"
     }
   ];
 
@@ -167,6 +174,17 @@ export default function AboutUsSection() {
                   <p className="text-xs font-light text-gray-400 text-center leading-relaxed">
                     {member.role}
                   </p>
+
+                  {/* LinkedIn Link */}
+                  <Link
+                    href={member.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-2 w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 hover:border-white/20 transition-all duration-300 hover:scale-110"
+                    aria-label={`${member.name}'s LinkedIn Profile`}
+                  >
+                    <Linkedin size={18} strokeWidth={1.5} />
+                  </Link>
                 </div>
 
                 {/* Hover Effect */}

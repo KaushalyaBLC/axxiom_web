@@ -11,16 +11,16 @@ const assetDimensions: Record<string, AssetDimensions> = {
   '/clients/lichaly_store_logo.png': { naturalWidth: 504, naturalHeight: 495 },
   '/clients/machma_logo.png': { naturalWidth: 500, naturalHeight: 380 },
   '/team/chamika.jpg': { naturalWidth: 1200, naturalHeight: 1200 },
-  '/team/co_founder-ceo-chanupa.jpg': { naturalWidth: 1280, naturalHeight: 1280 },
-  '/team/co_founder-frontend_engineer-ashan.jpg': {
+  '/team/chanupa.jpg': { naturalWidth: 1280, naturalHeight: 1280 },
+  '/team/ashan.jpg': {
     naturalWidth: 2403,
     naturalHeight: 2566,
   },
-  '/team/co_founder-project_manager-yomal.jpg': {
+  '/team/yomal.jpg': {
     naturalWidth: 2046,
     naturalHeight: 2046,
   },
-  '/team/co_founuder-bussiness_analysit-arman.jpg': {
+  '/team/arman.jpg': {
     naturalWidth: 969,
     naturalHeight: 910,
   },
