@@ -1,3 +1,5 @@
+'use client';
+
 import Image from "next/image";
 import Beams from "@/components/Beam";
 import { getScaledImageDimensions } from "@/lib/imageDimensions";
@@ -28,6 +30,13 @@ const heroBackground = encodeURIComponent(`
 const heroLogoDimensions = getScaledImageDimensions("/white-3.png", 830, 150);
 
 export default function HeroSection() {
+  const scrollToNextSection = () => {
+    window.scrollBy({
+      top: 500,
+      behavior: 'smooth'
+    });
+  };
+
   return (
     <div
       className="hero-root w-full h-screen relative text-white overflow-hidden bg-black"
@@ -73,12 +82,14 @@ export default function HeroSection() {
         rotation={30}
         position={[3, 0, 0]}
       />
-      <div className="hero-scroll-hint" aria-hidden="true">
-        <span className="hero-scroll-hint__line">
-          <span className="hero-scroll-hint__dot" />
-        </span>
+      <button
+        className="hero-scroll-hint"
+        onClick={scrollToNextSection}
+        aria-label="Scroll to next section"
+      >
+        <span className="hero-scroll-hint__text">Scroll Down</span>
         <span className="hero-scroll-hint__chevron" />
-      </div>
+      </button>
       <style jsx>{`
         .hero-root {
           min-height: 100vh;
@@ -219,64 +230,45 @@ export default function HeroSection() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 0.4rem;
+          gap: 0.5rem;
           opacity: 0.75;
+          background: none;
+          border: none;
+          cursor: pointer;
+          padding: 0.5rem;
+          transition: all 0.3s ease;
         }
-        .hero-scroll-hint__line {
-          width: 1px;
-          height: 34px;
-          display: inline-flex;
-          align-items: flex-start;
-          justify-content: center;
-          background: linear-gradient(
-            180deg,
-            rgba(255, 255, 255, 0) 0%,
-            rgba(255, 255, 255, 0.25) 40%,
-            rgba(255, 255, 255, 0) 100%
-          );
-          position: relative;
-          overflow: hidden;
+        .hero-scroll-hint:hover {
+          opacity: 1;
         }
-        .hero-scroll-hint__dot {
-          width: 6px;
-          height: 6px;
-          border-radius: 9999px;
-          background: rgba(255, 255, 255, 0.8);
-          position: absolute;
-          top: 0;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          animation: heroDotDrift 2s ease-in-out infinite;
+        .hero-scroll-hint:active {
+          transform: translateX(-50%) scale(0.95);
+        }
+        .hero-scroll-hint__text {
+          font-size: 9px;
+          font-weight: 300;
+          letter-spacing: 0.1em;
+          color: rgba(255, 255, 255, 0.5);
+          text-transform: uppercase;
+          font-family: var(--font-geist-sans, sans-serif);
         }
         .hero-scroll-hint__chevron {
-          width: 14px;
-          height: 14px;
-          border-right: 1px solid rgba(255, 255, 255, 0.7);
-          border-bottom: 1px solid rgba(255, 255, 255, 0.7);
+          width: 16px;
+          height: 16px;
+          border-right: 3px solid rgba(255, 255, 255, 1);
+          border-bottom: 3px solid rgba(255, 255, 255, 1);
           transform: rotate(45deg);
           animation: heroChevronPulse 1.6s ease-in-out infinite;
-        }
-        @keyframes heroDotDrift {
-          0% {
-            transform: translate(-50%, -100%);
-            opacity: 0;
-          }
-          40% {
-            opacity: 1;
-          }
-          100% {
-            transform: translate(-50%, 100%);
-            opacity: 0;
-          }
+          filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
         }
         @keyframes heroChevronPulse {
           0%,
           100% {
             transform: translateY(0) rotate(45deg);
-            opacity: 0.65;
+            opacity: 0.7;
           }
           50% {
-            transform: translateY(6px) rotate(45deg);
+            transform: translateY(8px) rotate(45deg);
             opacity: 1;
           }
         }
