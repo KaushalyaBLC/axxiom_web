@@ -353,6 +353,9 @@ export default function HeroSection() {
             width: 16rem;
             height: 16rem;
           }
+          .hero-scroll-hint {
+            bottom: clamp(60px, 10vh, 120px);
+          }
         }
       `}</style>
     </div>
