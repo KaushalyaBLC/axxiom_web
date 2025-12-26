@@ -295,6 +295,7 @@ export default function HeroSection() {
             display: flex;
             align-items: center;
             justify-content: center;
+            padding-top: clamp(0.5rem, 4vw, 2rem);
           }
           .hero-content {
             gap: 2.5rem;
@@ -302,7 +303,8 @@ export default function HeroSection() {
             position: relative;
             top: auto;
             left: auto;
-            transform: none;
+            transform: translateY(-40%);
+            width: 100%;
           }
           .hero-logo {
             width: min(90vw, 600px);
