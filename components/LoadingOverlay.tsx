@@ -103,6 +103,52 @@ export default function LoadingOverlay({ progress, isComplete }: LoadingOverlayP
             animation: none;
           }
         }
+
+        @media (max-width: 768px) {
+          .loading-overlay__text {
+            letter-spacing: 0.4em;
+            padding: 0 1rem;
+          }
+        }
+
+        @media (max-width: 640px) {
+          .loading-overlay__shell {
+            gap: 1rem;
+            padding: 0 1.5rem;
+            width: 100%;
+          }
+
+          .loading-overlay__text {
+            font-size: clamp(1.8rem, 10vw, 3.5rem);
+            letter-spacing: 0.3em;
+            text-align: center;
+          }
+
+          @keyframes loaderZoom {
+            0% {
+              transform: scale(0.92);
+              opacity: 0.75;
+              text-shadow: 0 0 15px rgba(255, 255, 255, var(--glow-strength));
+            }
+            50% {
+              transform: scale(1.02);
+              opacity: 1;
+              text-shadow: 0 0 35px rgba(255, 255, 255, var(--glow-strength));
+            }
+            100% {
+              transform: scale(0.92);
+              opacity: 0.75;
+              text-shadow: 0 0 15px rgba(255, 255, 255, var(--glow-strength));
+            }
+          }
+        }
+
+        @media (max-width: 480px) {
+          .loading-overlay__text {
+            font-size: clamp(1.5rem, 12vw, 2.5rem);
+            letter-spacing: 0.25em;
+          }
+        }
       `}</style>
     </div>
   );
