@@ -248,7 +248,7 @@ export default function HeroSection() {
           font-size: 9px;
           font-weight: 300;
           letter-spacing: 0.1em;
-          color: rgba(255, 255, 255, 0.5);
+          color: rgba(255, 255, 255, 0.95);
           text-transform: uppercase;
           font-family: var(--font-geist-sans, sans-serif);
         }

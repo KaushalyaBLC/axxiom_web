@@ -2,9 +2,15 @@
 
 import { useState } from 'react';
 import { Mail, Phone, Send } from 'lucide-react';
-import { FaLinkedin, FaTwitter, FaFacebook, FaInstagram } from 'react-icons/fa';
+import { FaLinkedin, FaFacebook, FaInstagram } from 'react-icons/fa';
 
 const contactInfo = [
+  {
+    icon: Phone,
+    label: 'Phone',
+    value: '+94 76 699 2183',
+    href: 'tel:+94766992183',
+  },
   {
     icon: Phone,
     label: 'Phone',
@@ -26,19 +32,14 @@ const socialLinks = [
     href: 'https://linkedin.com/company/axxiom-technologies',
   },
   {
-    icon: FaTwitter,
-    label: 'Twitter',
-    href: 'https://twitter.com/axxiomtech',
-  },
-  {
     icon: FaFacebook,
     label: 'Facebook',
-    href: 'https://facebook.com/axxiomtech',
+    href: 'https://web.facebook.com/profile.php?id=61584180597837',
   },
   {
     icon: FaInstagram,
     label: 'Instagram',
-    href: 'https://instagram.com/axxiomtech',
+    href: 'https://www.instagram.com/axxiom.tech/',
   },
 ];
 
@@ -310,11 +311,10 @@ export default function ContactSection() {
 
             <div className="rounded-3xl border border-white/15 bg-white/5 p-6 backdrop-blur-xl">
               <h3 className="text-xs uppercase tracking-[0.4em] text-white/70 mb-3">
-                Let's Collaborate
+                Visit Us
               </h3>
-              <p className="text-sm text-white/70">
-                We live for ambitious ideas. Call us at <span className="text-white">+94 71 301 7267</span> or drop a quick
-                note to <span className="text-white">hello@axxiom.tech</span> and let's start shaping your solution together.
+              <p className="text-sm text-white/70 leading-relaxed">
+                No. 115, Level 03, Ward City Shopping Complex, Queen Mary's Rd, Gampaha 11000
               </p>
             </div>
           </div>

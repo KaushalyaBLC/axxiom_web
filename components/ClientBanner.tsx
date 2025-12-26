@@ -100,9 +100,9 @@ export default function ClientBanner() {
                     <h3 className="client-card__name">
                       {client.name}
                     </h3>
-                    <div className="flex items-center gap-1.5 text-gray-500">
+                    <div className="flex items-center gap-1.5">
                       <svg
-                        className="w-3 h-3"
+                        className="w-3 h-3 client-card__location-icon"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -167,7 +167,7 @@ export default function ClientBanner() {
         }
 
         .animate-scroll-smooth {
-          animation: scroll-smooth 50s linear infinite;
+          animation: scroll-smooth 40s linear infinite;
           width: max-content;
         }
 
@@ -327,14 +327,24 @@ export default function ClientBanner() {
           color: rgba(255,255,255,1);
         }
 
+        .client-card__location-icon {
+          color: rgba(255,255,255,0.95);
+          transition: color 0.3s ease;
+        }
+
+        .client-card:hover .client-card__location-icon {
+          color: rgba(255,255,255,1);
+        }
+
         .client-card__location {
           font-size: 0.7rem;
           letter-spacing: 0.05em;
+          color: rgba(255,255,255,0.95);
           transition: color 0.3s ease;
         }
 
         .client-card:hover .client-card__location {
-          color: rgba(156,163,175,1);
+          color: rgba(255,255,255,1);
         }
 
         .client-card__corner {

@@ -1,6 +1,7 @@
 'use client';
 
-import { Mail, Phone, MapPin, Linkedin, Twitter, Github, Facebook } from 'lucide-react';
+import { Mail, Phone, MapPin } from 'lucide-react';
+import { FaLinkedin, FaFacebook, FaInstagram } from 'react-icons/fa';
 import Link from 'next/link';
 
 export default function Footer() {
@@ -81,10 +82,9 @@ export default function Footer() {
   ];
 
   const socialLinks = [
-    { icon: Linkedin, href: '#', label: 'LinkedIn' },
-    { icon: Twitter, href: '#', label: 'Twitter' },
-    { icon: Github, href: '#', label: 'GitHub' },
-    { icon: Facebook, href: '#', label: 'Facebook' },
+    { icon: FaLinkedin, href: 'https://linkedin.com/company/axxiom-technologies', label: 'LinkedIn' },
+    { icon: FaFacebook, href: 'https://web.facebook.com/profile.php?id=61584180597837', label: 'Facebook' },
+    { icon: FaInstagram, href: 'https://www.instagram.com/axxiom.tech/', label: 'Instagram' },
   ];
 
   return (
@@ -109,86 +109,98 @@ export default function Footer() {
           }}
         >
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
-          {/* Company Info */}
-          <div className="space-y-6">
+            {/* Company Info */}
+            <div className="space-y-6">
+              <div>
+                <h3 className="text-2xl font-bold tracking-[0.3em] mb-4 bg-gradient-to-r from-white via-gray-200 to-white bg-clip-text text-transparent">
+                  AXXIOM
+                </h3>
+                <p className="text-sm text-justify text-gray-400 leading-relaxed">
+                  Let’s turn your ideas into impactful
+                  digital solutions. With smart innovation,
+                  clear collaboration, and our expertise,
+                  we create technology that drives real
+                  growth. Partner with us to build
+                  something remarkable
+                </p>
+              </div>
+
+              {/* Social Links */}
+              <div className="flex gap-4">
+                {socialLinks.map((social, index) => {
+                  const IconComponent = social.icon;
+                  return (
+                    <Link
+                      key={index}
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={social.label}
+                      className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 hover:border-white/20 transition-all duration-300 hover:scale-110"
+                    >
+                      <IconComponent size={18} />
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Quick Links */}
             <div>
-              <h3 className="text-2xl font-bold tracking-[0.3em] mb-4 bg-gradient-to-r from-white via-gray-200 to-white bg-clip-text text-transparent">
-                AXXIOM
-              </h3>
-              <p className="text-sm text-gray-400 leading-relaxed">
-                Redefining digital transformation with cutting-edge technology solutions.
-              </p>
+              <h4 className="text-lg font-semibold mb-6 tracking-wider">Quick Links</h4>
+              <ul className="space-y-3">
+                {quickLinks.map((link, index) => (
+                  <li key={index}>
+                    <Link
+                      href={link.href}
+                      className="text-sm text-gray-400 hover:text-white transition-colors duration-300 hover:translate-x-1 inline-block"
+                    >
+                      {link.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </div>
 
-            {/* Social Links */}
-            <div className="flex gap-4">
-              {socialLinks.map((social, index) => {
-                const IconComponent = social.icon;
-                return (
-                  <Link
-                    key={index}
-                    href={social.href}
-                    aria-label={social.label}
-                    className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 hover:border-white/20 transition-all duration-300 hover:scale-110"
-                  >
-                    <IconComponent size={18} strokeWidth={1.5} />
-                  </Link>
-                );
-              })}
+            {/* Services */}
+            <div>
+              <h4 className="text-lg font-semibold mb-6 tracking-wider">Services</h4>
+              <ul className="space-y-3">
+                {services.map((service, index) => (
+                  <li key={index} className="text-sm text-gray-400">
+                    {service}
+                  </li>
+                ))}
+              </ul>
             </div>
-          </div>
 
-          {/* Quick Links */}
-          <div>
-            <h4 className="text-lg font-semibold mb-6 tracking-wider">Quick Links</h4>
-            <ul className="space-y-3">
-              {quickLinks.map((link, index) => (
-                <li key={index}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-gray-400 hover:text-white transition-colors duration-300 hover:translate-x-1 inline-block"
-                  >
-                    {link.name}
-                  </Link>
+            {/* Contact Info */}
+            <div>
+              <h4 className="text-lg font-semibold mb-6 tracking-wider">Contact Us</h4>
+              <ul className="space-y-4">
+                <li className="flex items-start gap-3 text-sm text-gray-400">
+                  <Mail size={18} className="mt-0.5 flex-shrink-0" strokeWidth={1.5} />
+                  <a href="mailto:hello@axxiom.tech" className="hover:text-white transition-colors duration-300">
+                    hello@axxiom.tech
+                  </a>
                 </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Services */}
-          <div>
-            <h4 className="text-lg font-semibold mb-6 tracking-wider">Services</h4>
-            <ul className="space-y-3">
-              {services.map((service, index) => (
-                <li key={index} className="text-sm text-gray-400">
-                  {service}
+                <li className="flex items-start gap-3 text-sm text-gray-400">
+                  <Phone size={18} className="mt-0.5 flex-shrink-0" strokeWidth={1.5} />
+                  <div className="flex flex-col gap-1">
+                    <a href="tel:+94766992183" className="hover:text-white transition-colors duration-300">
+                      +94 76 699 2183
+                    </a>
+                    <a href="tel:+94713017267" className="hover:text-white transition-colors duration-300">
+                      +94 71 301 7267
+                    </a>
+                  </div>
                 </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Contact Info */}
-          <div>
-            <h4 className="text-lg font-semibold mb-6 tracking-wider">Contact Us</h4>
-            <ul className="space-y-4">
-              <li className="flex items-start gap-3 text-sm text-gray-400">
-                <Mail size={18} className="mt-0.5 flex-shrink-0" strokeWidth={1.5} />
-                <a href="mailto:hello@axxiom.tech" className="hover:text-white transition-colors duration-300">
-                  hello@axxiom.tech
-                </a>
-              </li>
-              <li className="flex items-start gap-3 text-sm text-gray-400">
-                <Phone size={18} className="mt-0.5 flex-shrink-0" strokeWidth={1.5} />
-                <a href="tel:+94713017267" className="hover:text-white transition-colors duration-300">
-                  +94713017267
-                </a>
-              </li>
-              <li className="flex items-start gap-3 text-sm text-gray-400">
-                <MapPin size={18} className="mt-0.5 flex-shrink-0" strokeWidth={1.5} />
-                <span>Colombo, Sri Lanka</span>
-              </li>
-            </ul>
-          </div>
+                <li className="flex items-start gap-3 text-sm text-gray-400">
+                  <MapPin size={18} className="mt-0.5 flex-shrink-0" strokeWidth={1.5} />
+                  <span className="leading-relaxed">No. 115, Level 03, Ward City Shopping Complex, Queen Mary's Rd, Gampaha 11000</span>
+                </li>
+              </ul>
+            </div>
           </div>
 
           {/* Divider */}

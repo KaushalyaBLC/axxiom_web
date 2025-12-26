@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
 
     // Email content
     const mailOptions = {
-      from: `"${process.env.EMAIL_FROM_NAME || 'Axxiom Contact Form'}" <${process.env.EMAIL_USER}>`,
+      from: `"${process.env.EMAIL_FROM_NAME || 'Axxiom Team'}" <${process.env.EMAIL_USER}>`,
       to: process.env.EMAIL_TO,
       replyTo: email,
       subject: `New Contact Form Submission: ${subject}`,
@@ -92,7 +92,6 @@ export async function POST(request: NextRequest) {
                 color: #333;
                 padding: 12px;
                 background-color: #f8f8f8;
-                border-left: 3px solid #0d0d0d;
                 border-radius: 4px;
               }
               .message-field {
@@ -226,7 +225,6 @@ Sent at: ${new Date().toLocaleString()}
               }
               .message-box {
                 background-color: #f8f8f8;
-                border-left: 4px solid #0d0d0d;
                 padding: 20px;
                 margin: 25px 0;
                 border-radius: 4px;

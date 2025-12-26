@@ -101,12 +101,10 @@ export default function ProjectsSection() {
           <div className="w-16 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
         </div>
 
-        <h2 className="text-6xl font-bold tracking-[0.2em] mb-4 text-center bg-gradient-to-r from-white via-gray-200 to-white bg-clip-text text-transparent">
+        <h2 className="text-6xl font-bold tracking-[0.2em] mb-10 text-center bg-gradient-to-r from-white via-gray-200 to-white bg-clip-text text-transparent">
           OUR RECENT WORK
         </h2>
-        <p className="text-center text-gray-400 mb-16 text-lg tracking-wide">
-          Our Recent Clients / Projects
-        </p>
+       
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
           {projects.map((project, index) => {
