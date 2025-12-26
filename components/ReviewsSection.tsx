@@ -52,24 +52,24 @@ export default function ReviewsSection() {
     <section className="relative w-full overflow-hidden bg-black text-white py-20">
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-b from-black via-zinc-950 to-black">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(120,119,198,0.1),transparent_70%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(120,119,198,0.03),transparent_70%)]" />
         {/* SVG glow accents */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <svg
-            className="absolute -top-32 left-1/2 h-[800px] w-[1600px] -translate-x-1/2 opacity-40"
+            className="absolute -top-32 left-1/2 h-[800px] w-[1600px] -translate-x-1/2 opacity-15"
             viewBox="0 0 1200 600"
             aria-hidden="true"
           >
             <defs>
               <linearGradient id="reviewsGradient1" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#f5f5f5" stopOpacity="0.2" />
-                <stop offset="50%" stopColor="#d4d4d4" stopOpacity="0.45" />
-                <stop offset="100%" stopColor="#a3a3a3" stopOpacity="0.3" />
+                <stop offset="0%" stopColor="#f5f5f5" stopOpacity="0.1" />
+                <stop offset="50%" stopColor="#d4d4d4" stopOpacity="0.15" />
+                <stop offset="100%" stopColor="#a3a3a3" stopOpacity="0.1" />
               </linearGradient>
               <linearGradient id="reviewsGradient2" x1="0%" y1="100%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#fafafa" stopOpacity="0.2" />
-                <stop offset="50%" stopColor="#c7c7c7" stopOpacity="0.4" />
-                <stop offset="100%" stopColor="#8f8f8f" stopOpacity="0.15" />
+                <stop offset="0%" stopColor="#fafafa" stopOpacity="0.1" />
+                <stop offset="50%" stopColor="#c7c7c7" stopOpacity="0.15" />
+                <stop offset="100%" stopColor="#8f8f8f" stopOpacity="0.08" />
               </linearGradient>
               <filter id="reviewsBlur" x="-20%" y="-20%" width="140%" height="140%">
                 <feGaussianBlur stdDeviation="80" edgeMode="duplicate" />
@@ -88,18 +88,18 @@ export default function ReviewsSection() {
           </svg>
 
           <svg
-            className="absolute bottom-[-140px] right-[-80px] h-[420px] w-[420px] opacity-60"
+            className="absolute bottom-[-140px] right-[-80px] h-[420px] w-[420px] opacity-20"
             viewBox="0 0 400 400"
             aria-hidden="true"
           >
             <defs>
               <radialGradient id="reviewsRadial" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor="#f5f5f5" stopOpacity="0.12" />
+                <stop offset="0%" stopColor="#f5f5f5" stopOpacity="0.05" />
                 <stop offset="100%" stopColor="#f5f5f5" stopOpacity="0" />
               </radialGradient>
               <linearGradient id="reviewsStroke" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#d1d1d1" stopOpacity="0.6" />
-                <stop offset="100%" stopColor="#7a7a7a" stopOpacity="0.2" />
+                <stop offset="0%" stopColor="#d1d1d1" stopOpacity="0.3" />
+                <stop offset="100%" stopColor="#7a7a7a" stopOpacity="0.1" />
               </linearGradient>
             </defs>
             <circle cx="200" cy="200" r="160" fill="url(#reviewsRadial)" />

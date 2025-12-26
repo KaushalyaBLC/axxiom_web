@@ -68,7 +68,7 @@ export default function ClientBanner() {
         {/* Scrolling Logos Container */}
         <div className="relative w-full">
           <div className="overflow-hidden py-6">
-            <div className="flex items-center gap-32 animate-scroll-smooth">
+            <div className="flex items-center gap-6 md:gap-32 animate-scroll-smooth">
               {duplicatedClients.map((client, index) => (
                 <div
                   key={`${client.name}-${index}`}
@@ -100,30 +100,9 @@ export default function ClientBanner() {
                     <h3 className="client-card__name">
                       {client.name}
                     </h3>
-                    <div className="flex items-center gap-1.5">
-                      <svg
-                        className="w-3 h-3 client-card__location-icon"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                        />
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                        />
-                      </svg>
-                      <span className="client-card__location">
-                        {client.location}
-                      </span>
-                    </div>
+                    <span className="client-card__location">
+                      {client.location}
+                    </span>
                   </div>
 
                   {/* Decorative corner accents */}
@@ -327,20 +306,15 @@ export default function ClientBanner() {
           color: rgba(255,255,255,1);
         }
 
-        .client-card__location-icon {
-          color: rgba(255,255,255,0.95);
-          transition: color 0.3s ease;
-        }
-
-        .client-card:hover .client-card__location-icon {
-          color: rgba(255,255,255,1);
-        }
-
         .client-card__location {
           font-size: 0.7rem;
           letter-spacing: 0.05em;
           color: rgba(255,255,255,0.95);
           transition: color 0.3s ease;
+          max-width: 220px;
+          word-wrap: break-word;
+          white-space: normal;
+          line-height: 1.3;
         }
 
         .client-card:hover .client-card__location {
