@@ -6,6 +6,7 @@ import WhoWeAreSection from "@/components/WhoWeAreSection";
 import ProjectsSection from "@/components/ProjectsSection";
 import ClientBanner from "@/components/ClientBanner";
 import AboutUsSection from "@/components/AboutUsSection";
+import ReviewsSection from "@/components/ReviewsSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
@@ -89,6 +90,9 @@ export default function Home() {
         </section>
         <section id="team">
           <AboutUsSection />
+        </section>
+        <section id="reviews">
+          <ReviewsSection />
         </section>
         <section id="contact">
           <ContactSection />

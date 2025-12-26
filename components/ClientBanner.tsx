@@ -5,11 +5,11 @@ import { getScaledImageDimensions } from '@/lib/imageDimensions';
 
 export default function ClientBanner() {
   const clients = [
-    { name: "Machma College", location: "Colombo, Sri Lanka", logo: "/clients/machma_logo.png", theme: "white" as const },
-    { name: "Legacy Liquor", location: "Calgary, Canada", logo: "/clients/legacy_liquour_logo.png", theme: "black" as const },
-    { name: "Ceylon Maritime Services", location: "Colombo, Sri Lanka", logo: "/clients/ceylone_marine.png", theme: "white" as const },
-    { name: "Buffalo Contractors", location: "New York, USA", logo: "/clients/buffalo_contractors.png", theme: "white" as const },
-    { name: "Lichaly Stores", location: "Gampaha, Sri Lanka", logo: "/clients/lichaly_store_logo.png", theme: "black" as const },
+    { name: "Machma College", location: "No. 323, LBS Building, 3rd Floor, Galle Rd, Colombo 04", logo: "/clients/machma_logo.png", theme: "white" as const },
+    { name: "Legacy Liquor", location: "421 / 350, 32nd Avenue NE , Calgary, Alberta, Canada", logo: "/clients/legacy_liquour_logo.png", theme: "black" as const },
+    { name: "Ceylon Maritime Services", location: "No. 72, St. Andreews Place, Mutwall, Colombo 15", logo: "/clients/ceylone_marine.png", theme: "white" as const },
+    { name: "Buffalo Contractors", location: "66 Frederick Rd, Tonawanda, New York, United States", logo: "/clients/buffalo_contractors.png", theme: "white" as const },
+    { name: "Lichaly Stores", location: "Oruthota Road, Yagoda, Gampaha", logo: "/clients/lichaly_store_logo.png", theme: "black" as const },
   ];
 
   const logoDimensions: Record<string, { width: number; height: number }> = Object.fromEntries(
@@ -52,7 +52,7 @@ export default function ClientBanner() {
         <div className="particle particle-5" />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6">
+      <div className="relative z-10 w-full">
         {/* Section Header */}
         <div className="text-center mb-10">
           <div className="inline-flex items-center gap-3 mb-6">
@@ -66,13 +66,9 @@ export default function ClientBanner() {
         </div>
 
         {/* Scrolling Logos Container */}
-        <div className="relative">
-          {/* Gradient overlays for fade effect */}
-          <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-black to-transparent z-10 pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-black to-transparent z-10 pointer-events-none" />
-
+        <div className="relative w-full">
           <div className="overflow-hidden py-6">
-            <div className="flex items-center gap-8 animate-scroll-smooth">
+            <div className="flex items-center gap-32 animate-scroll-smooth">
               {duplicatedClients.map((client, index) => (
                 <div
                   key={`${client.name}-${index}`}
@@ -171,7 +167,7 @@ export default function ClientBanner() {
         }
 
         .animate-scroll-smooth {
-          animation: scroll-smooth 60s linear infinite;
+          animation: scroll-smooth 50s linear infinite;
           width: max-content;
         }
 
@@ -226,21 +222,16 @@ export default function ClientBanner() {
           gap: 1rem;
           min-width: 220px;
           padding: 1.5rem 1.25rem;
-          background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
-          border: 1px solid rgba(255,255,255,0.08);
+          background: transparent;
+          border: none;
           border-radius: 20px;
-          backdrop-filter: blur(20px);
           transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
           overflow: hidden;
         }
 
         .client-card:hover {
           transform: translateY(-8px);
-          border-color: rgba(255,255,255,0.2);
-          background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
-          box-shadow:
-            0 20px 60px rgba(0,0,0,0.3),
-            0 0 80px rgba(255,255,255,0.05);
+          background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
         }
 
         .client-card__glow {

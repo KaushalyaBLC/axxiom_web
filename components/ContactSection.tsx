@@ -83,11 +83,54 @@ export default function ContactSection() {
     subject: '',
     message: '',
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<{
+    type: 'success' | 'error' | null;
+    message: string;
+  }>({ type: null, message: '' });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission here
-    console.log('Form submitted:', formData);
+    setIsSubmitting(true);
+    setSubmitStatus({ type: null, message: '' });
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSubmitStatus({
+          type: 'success',
+          message: 'Thank you! Your message has been sent successfully. We\'ll get back to you soon.',
+        });
+        // Reset form
+        setFormData({
+          name: '',
+          email: '',
+          subject: '',
+          message: '',
+        });
+      } else {
+        setSubmitStatus({
+          type: 'error',
+          message: data.error || 'Something went wrong. Please try again.',
+        });
+      }
+    } catch (error) {
+      setSubmitStatus({
+        type: 'error',
+        message: 'Failed to send message. Please check your connection and try again.',
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -124,6 +167,17 @@ export default function ContactSection() {
         <div className="grid lg:grid-cols-2 gap-8">
           {/* Form */}
           <div className="order-2 lg:order-1 rounded-3xl border border-white/15 bg-white/5 p-6 backdrop-blur-xl">
+            {submitStatus.type && (
+              <div
+                className={`mb-5 rounded-xl p-4 ${
+                  submitStatus.type === 'success'
+                    ? 'bg-green-500/10 border border-green-500/30 text-green-400'
+                    : 'bg-red-500/10 border border-red-500/30 text-red-400'
+                }`}
+              >
+                <p className="text-sm">{submitStatus.message}</p>
+              </div>
+            )}
             <form onSubmit={handleSubmit} className="space-y-5">
               <div>
                 <label htmlFor="name" className="block text-xs uppercase tracking-[0.4em] text-white/70 mb-2">
@@ -191,10 +245,11 @@ export default function ContactSection() {
 
               <button
                 type="submit"
-                className="group w-full rounded-2xl bg-white text-black px-6 py-4 font-semibold uppercase tracking-[0.3em] transition-all duration-200 hover:bg-white/90 flex items-center justify-center gap-2"
+                disabled={isSubmitting}
+                className="group w-full rounded-2xl bg-white text-black px-6 py-4 font-semibold uppercase tracking-[0.3em] transition-all duration-200 hover:bg-white/90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
-                Send Message
-                <Send className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                {isSubmitting ? 'Sending...' : 'Send Message'}
+                <Send className={`h-5 w-5 transition-transform ${isSubmitting ? 'animate-pulse' : 'group-hover:translate-x-1'}`} />
               </button>
             </form>
           </div>
