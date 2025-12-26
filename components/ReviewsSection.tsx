@@ -9,13 +9,13 @@ export default function ReviewsSection() {
     {
       name: "Althaf Haaris",
       designation: "Director – Machma College",
-      photo: "/reviews/althaf_haaris.jfif",
+      photo: "/reviews/althaf_haaris.png",
       review: "Axxiom Technologies provided an Institute Management System that strengthened how we handle day to day institute operations. Record keeping, coordination and administrative tracking are now clearer and faster, which has reduced manual effort significantly. Strong execution and dependable support throughout."
     },
     {
       name: "Althaf Haaris",
       designation: "Director – Machma College",
-      photo: "/reviews/althaf_haaris.jfif",
+      photo: "/reviews/althaf_haaris.png",
       review: "The Learning Management System which Axxiom Technologies delivered has made our teaching and learning process far more organized. Tutors can manage lessons and materials easily and students can follow everything without confusion. It is a smooth, user friendly system that has improved academic delivery in a practical way."
     }
   ];
@@ -174,13 +174,16 @@ export default function ReviewsSection() {
 
                       {/* Reviewer Info */}
                       <div className="flex items-center gap-4">
-                        <div className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-white/20">
+                        <div className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-white/20 bg-gradient-to-br from-blue-500/20 to-purple-500/20">
                           <Image
                             src={review.photo}
                             alt={review.name}
                             width={64}
                             height={64}
                             className="object-cover w-full h-full"
+                            priority={index === 0}
+                            quality={90}
+                            unoptimized
                           />
                         </div>
                         <div>

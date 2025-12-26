@@ -12,6 +12,7 @@ export const imageAssets: string[] = Array.from(
     '/team/yomal.jpg',
     '/team/arman.jpg',
     '/team/chamath.webp',
+    '/reviews/althaf_haaris.png',
   ])
 );
 
