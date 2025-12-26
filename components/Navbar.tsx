@@ -6,7 +6,6 @@ import Image from 'next/image';
 import { Menu, X } from 'lucide-react';
 
 const navLinks = [
-  { label: 'Home', href: '#home' },
   { label: 'Services', href: '#services' },
   { label: 'About', href: '#about' },
   { label: 'Projects', href: '#projects' },
@@ -66,8 +65,12 @@ export default function Navbar() {
       showNavbar ? 'translate-y-0' : '-translate-y-full'
     }`}>
       <nav className="max-w-6xl mx-auto flex items-center justify-between gap-4 rounded-full border border-white/15 bg-white/5 px-5 py-3 backdrop-blur-2xl shadow-[0_25px_80px_rgba(0,0,0,0.55)] pointer-events-auto">
-        <div className="flex items-center gap-3">
-          <div className="relative h-10 w-[160px]">
+        <Link
+          href="#home"
+          onClick={(e) => handleNavClick(e, '#home')}
+          className="flex items-center gap-3 cursor-pointer group"
+        >
+          <div className="relative h-10 w-[160px] transition-opacity group-hover:opacity-80">
             <Image
               src="/white-3.png"
               alt="Axxiom Technologies"
@@ -77,10 +80,10 @@ export default function Navbar() {
               priority
             />
           </div>
-          <span className="hidden sm:inline text-[10px] tracking-[0.6em] text-white/70 uppercase">
+          <span className="hidden sm:inline text-[10px] tracking-[0.6em] text-white/70 uppercase transition-colors group-hover:text-white">
             Axxiom Technologies
           </span>
-        </div>
+        </Link>
 
         <div className="hidden md:flex items-center gap-2 text-xs uppercase tracking-[0.3em]">
           {navLinks.map((link) => (
